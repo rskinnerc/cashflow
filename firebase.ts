@@ -13,14 +13,14 @@ const firebaseConfig = {
 };
 
 function firebaseInit() {
-    let firebaseApp: FirebaseApp
+    let firebase: FirebaseApp
 
     try {
-        firebaseApp = getApp()
-        console.log("FirebaseApp Already initialized:", firebaseApp)
+        firebase = getApp()
+        console.log("FirebaseApp Already initialized:", firebase)
     } catch (error) {
-        firebaseApp = initializeApp(firebaseConfig)
-        console.log("FirebaseApp Initialized:", firebaseApp)
+        firebase = initializeApp(firebaseConfig)
+        console.log("FirebaseApp Initialized:", firebase)
     }
     const db = getFirestore()
     const auth = getAuth()
@@ -31,7 +31,7 @@ function firebaseInit() {
         connectFirestoreEmulator(db, 'localhost', 8082);
     }
 
-    return { firebaseApp, db, auth }
+    return { firebase, db, auth }
 }
 
 export default firebaseInit
