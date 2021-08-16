@@ -1,5 +1,6 @@
 
 import { ReactElement } from "react";
+import Navbar from "../components/Navbar";
 import AuthContextProvider from "../store/AuthContextProvider";
 
 export interface PocketsProps {
@@ -17,6 +18,7 @@ const Pockets: NextPageWithLayout = () => {
 Pockets.getLayout = function getLayout(page: ReactElement) {
     return (
       <AuthContextProvider>
+        <Navbar />
           {page}
       </AuthContextProvider>
     )

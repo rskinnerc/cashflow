@@ -31,9 +31,14 @@ const AuthContextProvider: FunctionComponent = (props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [user])
 
+    function signOut() {
+        setUser(null)
+    }
+
     const ctx = {
         user,
-        isLoggedIn
+        isLoggedIn,
+        signOut
     }
 
     if (!isLoggedIn) {

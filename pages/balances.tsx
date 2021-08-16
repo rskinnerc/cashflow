@@ -1,4 +1,5 @@
 import { ReactElement } from "react";
+import Navbar from "../components/Navbar";
 import AuthContextProvider from "../store/AuthContextProvider";
  
 const Balances: NextPageWithLayout = () => {
@@ -12,6 +13,7 @@ const Balances: NextPageWithLayout = () => {
 Balances.getLayout = function getLayout(page: ReactElement) {
     return (
       <AuthContextProvider>
+        <Navbar />
           {page}
       </AuthContextProvider>
     )
