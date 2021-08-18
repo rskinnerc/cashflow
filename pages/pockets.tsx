@@ -8,12 +8,6 @@ import FirebaseContext from "../store/FirebaseContext";
 import { collection, getDocs, orderBy, query, where } from "firebase/firestore";
 import AuthContext from "../store/AuthContext";
 
-const POCKETS = [
-  new PocketModel(1000, "COP", "Test One", true, "SOMEUID1", "POCKETID1"),
-  new PocketModel(2501, "COP", "Test Two", true, "SOMEUID1", "POCKETID2"),
-  new PocketModel(1200, "USD", "Test Three", true, "SOMEUID1", "POCKETID3"),
-  new PocketModel(1200, "COP", "Test Three", true, "SOMEUID1", "POCKETID4"),
-];
 export interface PocketsProps {}
 
 const Pockets: NextPageWithLayout = () => {
@@ -50,6 +44,7 @@ const Pockets: NextPageWithLayout = () => {
     }
 
     loadPockets();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
