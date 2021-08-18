@@ -90,7 +90,7 @@ const Pockets: NextPageWithLayout = () => {
                     setEditing(pocket);
                   }}
                 >
-                  <Pocket pocket={pocket} />
+                  <Pocket pocket={pocket} reload={loadPockets} />
                 </li>
               );
             })}
