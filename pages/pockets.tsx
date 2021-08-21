@@ -9,6 +9,7 @@ import { collection, getDocs, orderBy, query, where } from "firebase/firestore";
 import AuthContext from "../store/AuthContext";
 import NewPocket from "../components/NewPocket";
 import UpdatePocket from "../components/UpdatePocket";
+import Empty from "../components/Empty";
 
 export interface PocketsProps {}
 
@@ -73,26 +74,25 @@ const Pockets: NextPageWithLayout = () => {
         <h2>Pockets Summary</h2>
         <PocketsSummary usd={usd} cop={cop} />
       </div>
-      {!formMode && (
+      {!formMode && pockets && pockets.length > 0 && (
         <ul>
-          {pockets &&
-            pockets.map((pocket) => {
-              return (
-                <li
-                  className="border rounded-md border-blue-400 m-1 p-1"
-                  key={pocket.id}
-                  onClick={() => {
-                    setFormMode("updating");
-                    setEditing(pocket);
-                  }}
-                >
-                  <Pocket pocket={pocket} reload={loadPockets} />
-                </li>
-              );
-            })}
+          {pockets.map((pocket) => {
+            return (
+              <li
+                className="border rounded-md border-blue-400 m-1 p-1"
+                key={pocket.id}
+                onClick={() => {
+                  setFormMode("updating");
+                  setEditing(pocket);
+                }}
+              >
+                <Pocket pocket={pocket} reload={loadPockets} />
+              </li>
+            );
+          })}
         </ul>
       )}
-
+      {!formMode && pockets.length == 0 && <Empty />}
       {formMode === "creating" && <NewPocket closeForm={closeForm} />}
       {formMode === "updating" && (
         <UpdatePocket pocket={editing!} closeForm={closeForm} />

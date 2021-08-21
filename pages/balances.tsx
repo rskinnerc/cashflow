@@ -10,6 +10,7 @@ import FirebaseContext from "../store/FirebaseContext";
 import AuthContext from "../store/AuthContext";
 import NewBalance from "../components/NewBalance";
 import UpdateBalance from "../components/UpdateBalance";
+import Empty from "../components/Empty";
 export interface Filters {
   start: Date;
   end: Date;
@@ -92,26 +93,26 @@ const Balances: NextPageWithLayout = () => {
       >
         New Balance
       </button>
-      {!formMode && (
+      {!formMode && filteredBalances && filteredBalances.length > 0 && (
         <ul>
-          {transactions &&
-            filteredBalances?.map((b) => {
-              return (
-                <li key={b.id}>
-                  <Balance balance={b} reload={loadTransactions} />
-                  <button
-                    onClick={() => {
-                      setFormMode("updating");
-                      setEditing(b);
-                    }}
-                  >
-                    ✏️
-                  </button>
-                </li>
-              );
-            })}
+          {filteredBalances.map((b) => {
+            return (
+              <li key={b.id}>
+                <Balance balance={b} reload={loadTransactions} />
+                <button
+                  onClick={() => {
+                    setFormMode("updating");
+                    setEditing(b);
+                  }}
+                >
+                  ✏️
+                </button>
+              </li>
+            );
+          })}
         </ul>
       )}
+      {!formMode && filteredBalances?.length == 0 && <Empty />}
       {formMode === "creating" && <NewBalance closeForm={closeForm} />}
       {formMode === "updating" && (
         <UpdateBalance closeForm={closeForm} balance={editing!} />
