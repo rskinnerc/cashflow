@@ -105,7 +105,7 @@ const Pockets: NextPageWithLayout = () => {
 
 Pockets.getLayout = function getLayout(page: ReactElement) {
   return (
-    <AuthContextProvider>
+    <AuthContextProvider guest={false}>
       <Navbar />
       {page}
     </AuthContextProvider>
