@@ -5,12 +5,10 @@ import Navbar from "../components/Navbar";
 import { Balance as BalanceModel, balanceConverter } from "../models/Balance";
 import AuthContextProvider from "../store/AuthContextProvider";
 import Balance from "../components/Balance";
-import startOfMonth from "date-fns/startOfMonth";
-import endOfMonth from "date-fns/endOfMonth";
-import startOfDay from "date-fns/startOfDay";
-import endOfDay from "date-fns/endOfDay";
+import { startOfMonth, endOfMonth, startOfDay, endOfDay } from "date-fns";
 import FirebaseContext from "../store/FirebaseContext";
 import AuthContext from "../store/AuthContext";
+import NewBalance from "../components/NewBalance";
 
 export interface Filters {
   start: Date;
@@ -23,8 +21,11 @@ const Balances: NextPageWithLayout = () => {
   const [filters, setFilters] = useState<Filters>(formatFilters());
   const [transactions, setTransactions] = useState<BalanceModel[]>([]);
   const [filteredBalances, setFilteredBalances] = useState<BalanceModel[]>();
+  const [formMode, setFormMode] = useState<string | boolean>(false);
+  const [editing, setEditing] = useState<BalanceModel | null>(null);
   const { db } = useContext(FirebaseContext);
   const { user } = useContext(AuthContext);
+
   async function loadTransactions() {
     const balancesRef = collection(db, "balances");
 
@@ -61,6 +62,12 @@ const Balances: NextPageWithLayout = () => {
     return { start, end, currency };
   }
 
+  function closeForm(reload = false) {
+    setFormMode(false);
+
+    reload && loadTransactions();
+  }
+
   return (
     <div>
       <h2>Balances Page</h2>
@@ -71,22 +78,33 @@ const Balances: NextPageWithLayout = () => {
       <button
         onClick={() =>
           setFilters(
-            formatFilters(new Date(2021, 6, 11), new Date(2021, 6, 25), "USD")
+            formatFilters(new Date(2021, 6, 8), new Date(2021, 6, 25), "COP")
           )
         }
       >
         Change to July
       </button>
-      <ul>
-        {transactions &&
-          filteredBalances?.map((b) => {
-            return (
-              <li key={b.id}>
-                <Balance balance={b} />
-              </li>
-            );
-          })}
-      </ul>
+      <button
+        className="border-2 rounded-md border-green-600 p-1"
+        onClick={() => {
+          setFormMode("creating");
+        }}
+      >
+        New Balance
+      </button>
+      {!formMode && (
+        <ul>
+          {transactions &&
+            filteredBalances?.map((b) => {
+              return (
+                <li key={b.id}>
+                  <Balance balance={b} />
+                </li>
+              );
+            })}
+        </ul>
+      )}
+      {formMode === "creating" && <NewBalance closeForm={closeForm} />}
     </div>
   );
 };

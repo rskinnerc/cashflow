@@ -16,8 +16,7 @@ const Pockets: NextPageWithLayout = () => {
   const [pockets, setPockets] = useState<PocketModel[]>([]);
   const [usd, setUSD] = useState(0);
   const [cop, setCOP] = useState(0);
-  const [formOpen, setFormOpen] = useState(false);
-  const [formMode, setFormMode] = useState("creating");
+  const [formMode, setFormMode] = useState<string | boolean>(false);
   const [editing, setEditing] = useState<PocketModel | null>(null);
   const { db } = useContext(FirebaseContext);
   const { user } = useContext(AuthContext);
@@ -53,8 +52,7 @@ const Pockets: NextPageWithLayout = () => {
   }, []);
 
   function closeForm(reload: boolean) {
-    setFormOpen(false);
-    setFormMode("creating");
+    setFormMode(false);
     setEditing(null);
 
     reload && loadPockets();
@@ -66,7 +64,6 @@ const Pockets: NextPageWithLayout = () => {
       <button
         className="text-green-500 rounded-md border-green-600 border-2 p-1"
         onClick={() => {
-          setFormOpen(true);
           setFormMode("creating");
         }}
       >
@@ -76,7 +73,7 @@ const Pockets: NextPageWithLayout = () => {
         <h2>Pockets Summary</h2>
         <PocketsSummary usd={usd} cop={cop} />
       </div>
-      {!formOpen && (
+      {!formMode && (
         <ul>
           {pockets &&
             pockets.map((pocket) => {
@@ -85,7 +82,6 @@ const Pockets: NextPageWithLayout = () => {
                   className="border rounded-md border-blue-400 m-1 p-1"
                   key={pocket.id}
                   onClick={() => {
-                    setFormOpen(true);
                     setFormMode("updating");
                     setEditing(pocket);
                   }}
@@ -97,10 +93,8 @@ const Pockets: NextPageWithLayout = () => {
         </ul>
       )}
 
-      {formOpen && formMode === "creating" && (
-        <NewPocket closeForm={closeForm} />
-      )}
-      {formOpen && formMode === "updating" && (
+      {formMode === "creating" && <NewPocket closeForm={closeForm} />}
+      {formMode === "updating" && (
         <UpdatePocket pocket={editing!} closeForm={closeForm} />
       )}
     </div>

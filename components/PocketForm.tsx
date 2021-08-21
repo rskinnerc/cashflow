@@ -52,7 +52,7 @@ const PocketForm: FunctionComponent<PocketFormProps> = ({
           <Field name="name" type="text" />
           <ErrorMessage name="name" component="span" className="text-red-600" />
 
-          <label htmlFor="status">Name</label>
+          <label htmlFor="status">Status</label>
           <Field name="status" type="checkbox" />
           <ErrorMessage name="status" />
 
