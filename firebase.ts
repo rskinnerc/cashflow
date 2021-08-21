@@ -1,37 +1,36 @@
 import { FirebaseApp, initializeApp, getApp } from "firebase/app";
-import { connectFirestoreEmulator, getFirestore } from 'firebase/firestore'
-import { connectAuthEmulator, getAuth } from 'firebase/auth'
+import { connectFirestoreEmulator, getFirestore } from "firebase/firestore";
+import { connectAuthEmulator, getAuth } from "firebase/auth";
 
 const firebaseConfig = {
-    apiKey: "AIzaSyDM8qp0Zv6hVQWL79l5VvYk-V83Ijz1034",
-    authDomain: "pockets-dev.firebaseapp.com",
-    projectId: "pockets-dev",
-    storageBucket: "pockets-dev.appspot.com",
-    messagingSenderId: "592374338423",
-    appId: "1:592374338423:web:2800c6750d416ac82d0772",
-    measurementId: "G-SWLZXS0HV3"
+  apiKey: process.env.NEXT_PUBLIC_API_KEY,
+  authDomain: process.env.NEXT_PUBLIC_AUTH_DOMAIN,
+  projectId: process.env.NEXT_PUBLIC_PROJECT_ID,
+  storageBucket: process.env.NEXT_PUBLIC_STORAGE_BUCKET,
+  messagingSenderId: process.env.NEXT_PUBLIC_MESSAGING_SENDER_ID,
+  appId: process.env.NEXT_PUBLIC_APP_ID,
+  measurementId: process.env.NEXT_PUBLIC_MEASUREMENT_ID,
 };
 
 function firebaseInit() {
-    let firebase: FirebaseApp
+  let firebase: FirebaseApp;
 
-    try {
-        firebase = getApp()
-        console.log("FirebaseApp Already initialized:", firebase)
-    } catch (error) {
-        firebase = initializeApp(firebaseConfig)
-        console.log("FirebaseApp Initialized:", firebase)
-    }
-    const db = getFirestore()
-    const auth = getAuth()
+  try {
+    firebase = getApp();
+    console.log("FirebaseApp Already initialized:", firebase);
+  } catch (error) {
+    firebase = initializeApp(firebaseConfig);
+    console.log("FirebaseApp Initialized:", firebase);
+  }
+  const db = getFirestore();
+  const auth = getAuth();
 
+  if (process.env.NODE_ENV === "development") {
+    connectAuthEmulator(auth, "http://localhost:9099");
+    connectFirestoreEmulator(db, "localhost", 8082);
+  }
 
-    if (process.env.NODE_ENV === 'development') {
-        connectAuthEmulator(auth, "http://localhost:9099");
-        connectFirestoreEmulator(db, 'localhost', 8082);
-    }
-
-    return { firebase, db, auth }
+  return { firebase, db, auth };
 }
 
-export default firebaseInit
+export default firebaseInit;
