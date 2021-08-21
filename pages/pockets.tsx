@@ -10,6 +10,7 @@ import AuthContext from "../store/AuthContext";
 import NewPocket from "../components/NewPocket";
 import UpdatePocket from "../components/UpdatePocket";
 import Empty from "../components/Empty";
+import { useRouter } from "next/router";
 
 export interface PocketsProps {}
 
@@ -21,6 +22,7 @@ const Pockets: NextPageWithLayout = () => {
   const [editing, setEditing] = useState<PocketModel | null>(null);
   const { db } = useContext(FirebaseContext);
   const { user } = useContext(AuthContext);
+  const router = useRouter();
 
   function calculateTotal(currency: string, pockets: PocketModel[]) {
     let total = 0;
@@ -48,7 +50,7 @@ const Pockets: NextPageWithLayout = () => {
   }
 
   useEffect(() => {
-    loadPockets();
+    router.query.new ? setFormMode("creating") : loadPockets();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

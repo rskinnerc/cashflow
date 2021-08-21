@@ -11,6 +11,7 @@ import AuthContext from "../store/AuthContext";
 import NewBalance from "../components/NewBalance";
 import UpdateBalance from "../components/UpdateBalance";
 import Empty from "../components/Empty";
+import { useRouter } from "next/router";
 export interface Filters {
   start: Date;
   end: Date;
@@ -26,6 +27,7 @@ const Balances: NextPageWithLayout = () => {
   const [editing, setEditing] = useState<BalanceModel | null>(null);
   const { db } = useContext(FirebaseContext);
   const { user } = useContext(AuthContext);
+  const router = useRouter();
 
   async function loadTransactions() {
     const balancesRef = collection(db, "balances");
@@ -45,7 +47,7 @@ const Balances: NextPageWithLayout = () => {
   }
 
   useEffect(() => {
-    loadTransactions();
+    router.query.new ? setFormMode("creating") : loadTransactions();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filters]);
 
