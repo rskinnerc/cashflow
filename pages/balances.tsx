@@ -9,7 +9,7 @@ import { startOfMonth, endOfMonth, startOfDay, endOfDay } from "date-fns";
 import FirebaseContext from "../store/FirebaseContext";
 import AuthContext from "../store/AuthContext";
 import NewBalance from "../components/NewBalance";
-
+import UpdateBalance from "../components/UpdateBalance";
 export interface Filters {
   start: Date;
   end: Date;
@@ -99,12 +99,23 @@ const Balances: NextPageWithLayout = () => {
               return (
                 <li key={b.id}>
                   <Balance balance={b} />
+                  <button
+                    onClick={() => {
+                      setFormMode("updating");
+                      setEditing(b);
+                    }}
+                  >
+                    ✏️
+                  </button>
                 </li>
               );
             })}
         </ul>
       )}
       {formMode === "creating" && <NewBalance closeForm={closeForm} />}
+      {formMode === "updating" && (
+        <UpdateBalance closeForm={closeForm} balance={editing!} />
+      )}
     </div>
   );
 };
