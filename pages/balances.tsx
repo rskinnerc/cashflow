@@ -98,7 +98,7 @@ const Balances: NextPageWithLayout = () => {
             filteredBalances?.map((b) => {
               return (
                 <li key={b.id}>
-                  <Balance balance={b} />
+                  <Balance balance={b} reload={loadTransactions} />
                   <button
                     onClick={() => {
                       setFormMode("updating");

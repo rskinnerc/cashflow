@@ -34,7 +34,7 @@ const NewBalance: FunctionComponent<NewBalanceProps> = ({ closeForm }) => {
           closeForm();
         }}
       >
-        New Balance
+        Close Form
       </button>
       <BalanceForm
         balance={balance}
