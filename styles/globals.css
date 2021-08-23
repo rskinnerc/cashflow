@@ -6,4 +6,7 @@
   .btn {
     @apply py-1 px-2 font-bold text-transparent bg-clip-text bg-gradient-to-br from-gray-800 to-blue-500 border-2 border-gray-300 rounded-md;
   }
+  .btn-google {
+    @apply p-2 font-bold text-transparent bg-clip-text bg-gradient-to-br from-gray-900 to-red-700 border-2 border-red-700 rounded-md;
+  }
 }
