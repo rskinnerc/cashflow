@@ -6,7 +6,7 @@ class Balance {
   currency: string = "COP";
   description: string = "";
   responsible: string = "";
-  status: boolean = true;
+  status: boolean = false;
   type: string = "DEBT";
   uid: string = "";
   date: Timestamp = Timestamp.now();

@@ -19,9 +19,23 @@ const PocketsSummary: FunctionComponent<PocketsSummaryProps> = ({
   }
 
   return (
-    <div>
-      <p>USD: {currencyFormat("USD", usd)}</p>
-      <p>COP: {currencyFormat("COP", cop)}</p>
+    <div className="p-4 bg-white shadow-lg rounded-lg flex sm:flex-row flex-col justify-around w-full gap-3">
+      <div>
+        <h1 className="text-sm tracking-wide text-center text-gray-500">
+          TOTAL USD
+        </h1>
+        <p className="font-semibold text-gray-700 text-xl text-center">
+          {currencyFormat("USD", usd)}
+        </p>
+      </div>
+      <div>
+        <h1 className="text-sm tracking-wide text-center text-gray-500">
+          TOTAL COP
+        </h1>
+        <p className="font-semibold text-gray-700 text-xl text-center">
+          {currencyFormat("COP", cop)}
+        </p>
+      </div>
     </div>
   );
 };

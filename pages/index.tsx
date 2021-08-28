@@ -44,7 +44,9 @@ const Home: NextPageWithLayout = () => {
 Home.getLayout = function getLayout(page: ReactElement) {
   return (
     <AuthContextProvider guest={false}>
-      <Navbar />
+      <div className="flex flex-row lg:justify-center">
+        <Navbar />
+      </div>
       <div className="grid grid-cols-1 grid-rows-1 m-5">{page}</div>
     </AuthContextProvider>
   );

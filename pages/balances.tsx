@@ -12,6 +12,7 @@ import NewBalance from "../components/NewBalance";
 import UpdateBalance from "../components/UpdateBalance";
 import Empty from "../components/Empty";
 import { useRouter } from "next/router";
+import { MdAccountBalance } from "react-icons/md";
 export interface Filters {
   start: Date;
   end: Date;
@@ -73,7 +74,12 @@ const Balances: NextPageWithLayout = () => {
 
   return (
     <div>
-      <h2>Balances Page</h2>
+      <h2 className="text-2xl font-bold flex flex-row gap-1 items-center">
+        <MdAccountBalance className="text-gray-800" />
+        <span className="text-transparent bg-clip-text bg-gradient-to-br from-gray-800 to-blue-500">
+          Balances
+        </span>
+      </h2>
       <BalanceGraph balances={transactions} />
       <hr />
       <button onClick={() => setType("DEBT")}>Change to DEBT</button>
@@ -126,8 +132,10 @@ const Balances: NextPageWithLayout = () => {
 Balances.getLayout = function getLayout(page: ReactElement) {
   return (
     <AuthContextProvider guest={false}>
-      <Navbar />
-      {page}
+      <div className="flex flex-row lg:justify-center">
+        <Navbar />
+      </div>
+      <div className="grid grid-cols-1 grid-rows-1 m-3 gap-2">{page}</div>
     </AuthContextProvider>
   );
 };

@@ -24,7 +24,7 @@ const Navbar: FunctionComponent<NavbarProps> = () => {
   }
 
   return (
-    <div className="w-full md:w-3/5 lg:w-1/2 flex p-1 md:p-2 lg:p-3 text-yellow-400 text-sm sm:text-base bg-gray-800 justify-evenly items-center md:rounded-br-lg">
+    <div className="w-full md:w-3/5 lg:w-1/2 flex p-1 md:p-2 lg:p-3 text-yellow-400 text-sm sm:text-base bg-gray-800 justify-evenly items-center md:rounded-br-lg lg:rounded-b-lg">
       <Link href="/">
         <a className={"flex items-center" + isActive("/")}>
           <BsFillHouseDoorFill className="" />

@@ -9,4 +9,10 @@
   .btn-google {
     @apply p-2 font-bold text-transparent bg-clip-text bg-gradient-to-br from-gray-900 to-red-700 border-2 border-red-700 rounded-md;
   }
+  .btn-success {
+    @apply p-1 text-sm text-transparent bg-clip-text bg-gradient-to-br from-gray-800 to-green-600 hover:to-green-700 border-2 border-green-600 hover:border-green-700 rounded-md;
+  }
+  .btn-error {
+    @apply p-1 text-sm text-transparent bg-clip-text bg-gradient-to-br from-gray-800 to-red-600 hover:to-red-700 border-2 border-red-600 hover:border-red-700 rounded-md;
+  }
 }

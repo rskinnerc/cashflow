@@ -11,7 +11,8 @@ import NewPocket from "../components/NewPocket";
 import UpdatePocket from "../components/UpdatePocket";
 import Empty from "../components/Empty";
 import { useRouter } from "next/router";
-
+import { IoWallet } from "react-icons/io5";
+import { FaCog } from "react-icons/fa";
 export interface PocketsProps {}
 
 const Pockets: NextPageWithLayout = () => {
@@ -62,52 +63,74 @@ const Pockets: NextPageWithLayout = () => {
   }
 
   return (
-    <div>
-      <h2>Pockets Page</h2>
-      <button
-        className="text-green-500 rounded-md border-green-600 border-2 p-1"
-        onClick={() => {
-          setFormMode("creating");
-        }}
-      >
-        New Pocket
-      </button>
-      <div>
-        <h2>Pockets Summary</h2>
-        <PocketsSummary usd={usd} cop={cop} />
-      </div>
-      {!formMode && pockets && pockets.length > 0 && (
-        <ul>
-          {pockets.map((pocket) => {
-            return (
-              <li
-                className="border rounded-md border-blue-400 m-1 p-1"
-                key={pocket.id}
-                onClick={() => {
-                  setFormMode("updating");
-                  setEditing(pocket);
-                }}
-              >
-                <Pocket pocket={pocket} reload={loadPockets} />
+    <>
+      <h2 className="text-2xl font-bold flex flex-row gap-1 items-center lg:w-10/12">
+        <IoWallet className="text-gray-800" />
+        <span className="text-transparent bg-clip-text bg-gradient-to-br from-gray-800 to-blue-500">
+          Pockets
+        </span>
+      </h2>
+
+      <div className="flex lg:flex-row flex-col items-center lg:justify-evenly lg:items-start gap-5 lg:w-11/12 lg:mx-auto">
+        <div className="flex flex-col items-center gap-5 w-full">
+          <PocketsSummary usd={usd} cop={cop} />
+          <button
+            className="btn-success"
+            onClick={() => {
+              setFormMode("creating");
+            }}
+          >
+            Add pocket
+          </button>
+        </div>
+        <div className="w-full">
+          {!formMode && pockets && pockets.length > 0 && (
+            <ul>
+              <li className="p-4 mb-3 bg-white shadow-lg rounded-lg flex flex-row justify-evenly items-center">
+                <span className="w-8/12 text-sm">
+                  Pocket Name <br />{" "}
+                  <span className="font-semibold text-base">Value</span>
+                </span>
+                <span className="w-3/12 text-sm sm:text-base">Status</span>
+                <span className="w-1/12 text-center text-sm sm:text-base">
+                  <FaCog className="text-xl" />
+                </span>
               </li>
-            );
-          })}
-        </ul>
-      )}
-      {!formMode && pockets.length == 0 && <Empty />}
-      {formMode === "creating" && <NewPocket closeForm={closeForm} />}
-      {formMode === "updating" && (
-        <UpdatePocket pocket={editing!} closeForm={closeForm} />
-      )}
-    </div>
+              {pockets.map((pocket) => {
+                return (
+                  <li
+                    className="p-3 bg-gray-800 shadow-md my-2 rounded-md cursor-pointer"
+                    title="Edit"
+                    key={pocket.id}
+                    onClick={() => {
+                      setFormMode("updating");
+                      setEditing(pocket);
+                    }}
+                  >
+                    <Pocket pocket={pocket} reload={loadPockets} />
+                  </li>
+                );
+              })}
+            </ul>
+          )}
+          {!formMode && pockets.length == 0 && <Empty />}
+          {formMode === "creating" && <NewPocket closeForm={closeForm} />}
+          {formMode === "updating" && (
+            <UpdatePocket pocket={editing!} closeForm={closeForm} />
+          )}
+        </div>
+      </div>
+    </>
   );
 };
 
 Pockets.getLayout = function getLayout(page: ReactElement) {
   return (
     <AuthContextProvider guest={false}>
-      <Navbar />
-      {page}
+      <div className="flex flex-row lg:justify-center">
+        <Navbar />
+      </div>
+      <div className="grid grid-cols-1 grid-rows-1 m-3 gap-2">{page}</div>
     </AuthContextProvider>
   );
 };
