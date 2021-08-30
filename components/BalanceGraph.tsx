@@ -1,7 +1,5 @@
 import { FunctionComponent, useEffect, useState } from "react";
 import { Balance } from "../models/Balance";
-import { PieChart, Pie, Sector, Cell, ResponsiveContainer } from "recharts";
-
 export interface BalanceGraphProps {
   balances: Balance[];
 }
@@ -27,26 +25,8 @@ const BalanceGraph: FunctionComponent<BalanceGraphProps> = ({ balances }) => {
     setDebts(debts);
   }, [balances]);
   return (
-    <div>
+    <div className="w-full">
       <h2>Balance Graph Component</h2>
-      <div>
-        <PieChart width={300} height={120}>
-          <Pie
-            dataKey="value"
-            startAngle={180}
-            endAngle={0}
-            data={[
-              { name: "Income", value: income, fill: "#00AA8D" },
-              { name: "Debts", value: debts, fill: "#FB008C" },
-            ]}
-            cx="50%"
-            cy="100%"
-            outerRadius={70}
-            label
-          />
-        </PieChart>
-      </div>
-
       <p>Income: {income}</p>
       <p>Debts: {debts}</p>
     </div>

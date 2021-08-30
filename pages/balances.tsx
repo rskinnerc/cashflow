@@ -5,7 +5,14 @@ import Navbar from "../components/Navbar";
 import { Balance as BalanceModel, balanceConverter } from "../models/Balance";
 import AuthContextProvider from "../store/AuthContextProvider";
 import Balance from "../components/Balance";
-import { startOfMonth, endOfMonth, startOfDay, endOfDay } from "date-fns";
+import {
+  startOfMonth,
+  endOfMonth,
+  startOfDay,
+  endOfDay,
+  format,
+  parse,
+} from "date-fns";
 import FirebaseContext from "../store/FirebaseContext";
 import AuthContext from "../store/AuthContext";
 import NewBalance from "../components/NewBalance";
@@ -13,11 +20,13 @@ import UpdateBalance from "../components/UpdateBalance";
 import Empty from "../components/Empty";
 import { useRouter } from "next/router";
 import { MdAccountBalance } from "react-icons/md";
+import { Formik, Field, Form, ErrorMessage } from "formik";
 export interface Filters {
   start: Date;
   end: Date;
   currency: string;
 }
+import * as Yup from "yup";
 
 const Balances: NextPageWithLayout = () => {
   const [type, setType] = useState("INCOME");
@@ -73,28 +82,90 @@ const Balances: NextPageWithLayout = () => {
   }
 
   return (
-    <div>
+    <div className="flex flex-col iem gap-5">
       <h2 className="text-2xl font-bold flex flex-row gap-1 items-center">
         <MdAccountBalance className="text-gray-800" />
         <span className="text-transparent bg-clip-text bg-gradient-to-br from-gray-800 to-blue-500">
           Balances
         </span>
       </h2>
-      <BalanceGraph balances={transactions} />
-      <hr />
-      <button onClick={() => setType("DEBT")}>Change to DEBT</button>
-      <button onClick={() => setType("INCOME")}>Change to INCOME</button>
-      <button
-        onClick={() =>
-          setFilters(
-            formatFilters(new Date(2021, 6, 8), new Date(2021, 6, 25), "COP")
-          )
-        }
+
+      <Formik
+        initialValues={{
+          type,
+        }}
+        onSubmit={({ type }) => {
+          setType(type);
+        }}
       >
-        Change to July
-      </button>
+        {() => (
+          <Form className="flex flex-row gap-2 items-center text-sm border rounded-md border-gray-200 p-1">
+            <label>
+              <Field type="radio" name="type" value="DEBT" /> Debts
+            </label>
+            <label>
+              <Field type="radio" name="type" value="INCOME" /> Income
+            </label>
+            <button type="submit" className="btn">
+              Filter
+            </button>
+          </Form>
+        )}
+      </Formik>
+      <Formik
+        initialValues={{
+          start: format(filters.start, "yyyy-MM-dd"),
+          end: format(filters.end, "yyyy-MM-dd"),
+          currency: filters.currency,
+        }}
+        validationSchema={Yup.object({
+          start: Yup.string().required(),
+          end: Yup.date().required(),
+          currency: Yup.string().oneOf(["COP", "USD"]).required(),
+        })}
+        onSubmit={({ start, end, currency }) => {
+          setFilters(
+            formatFilters(
+              parse(start, "yyyy-MM-dd", new Date()),
+              parse(end, "yyyy-MM-dd", new Date()),
+              currency
+            )
+          );
+        }}
+      >
+        <Form className="text-sm border rounded-md border-gray-200 p-1">
+          <div className="flex flex-row justify-evenly">
+            <label>
+              <Field type="radio" name="currency" value="USD" /> USD
+            </label>
+            <label>
+              <Field type="radio" name="currency" value="COP" /> COP
+            </label>
+            <ErrorMessage name="currency" className="text-red-600" />
+          </div>
+          <div className="flex flex-col">
+            <label className="font-semibold" htmlFor="start">
+              Start Date
+            </label>
+            <Field name="start" type="date" />
+            <ErrorMessage name="start" className="text-red-600" />
+          </div>
+          <div className="flex flex-col">
+            <label className="font-semibold" htmlFor="end">
+              End Date
+            </label>
+            <Field name="end" type="date" />
+            <ErrorMessage name="end" className="text-red-600" />
+          </div>
+          <button type="submit" className="btn mt-2">
+            Load Transactions
+          </button>
+        </Form>
+      </Formik>
+      <BalanceGraph balances={transactions} />
+
       <button
-        className="border-2 rounded-md border-green-600 p-1"
+        className="border-2 rounded-md border-green-600 p-1 self-center"
         onClick={() => {
           setFormMode("creating");
         }}
@@ -105,16 +176,14 @@ const Balances: NextPageWithLayout = () => {
         <ul>
           {filteredBalances.map((b) => {
             return (
-              <li key={b.id}>
+              <li
+                key={b.id}
+                onClick={() => {
+                  setFormMode("updating");
+                  setEditing(b);
+                }}
+              >
                 <Balance balance={b} reload={loadTransactions} />
-                <button
-                  onClick={() => {
-                    setFormMode("updating");
-                    setEditing(b);
-                  }}
-                >
-                  ✏️
-                </button>
               </li>
             );
           })}
