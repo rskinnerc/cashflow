@@ -92,28 +92,6 @@ const Balances: NextPageWithLayout = () => {
 
       <Formik
         initialValues={{
-          type,
-        }}
-        onSubmit={({ type }) => {
-          setType(type);
-        }}
-      >
-        {() => (
-          <Form className="flex flex-row gap-2 items-center text-sm border rounded-md border-gray-200 p-1">
-            <label>
-              <Field type="radio" name="type" value="DEBT" /> Debts
-            </label>
-            <label>
-              <Field type="radio" name="type" value="INCOME" /> Income
-            </label>
-            <button type="submit" className="btn">
-              Filter
-            </button>
-          </Form>
-        )}
-      </Formik>
-      <Formik
-        initialValues={{
           start: format(filters.start, "yyyy-MM-dd"),
           end: format(filters.end, "yyyy-MM-dd"),
           currency: filters.currency,
@@ -172,6 +150,29 @@ const Balances: NextPageWithLayout = () => {
       >
         New Balance
       </button>
+      <Formik
+        initialValues={{
+          type,
+        }}
+        onSubmit={({ type }) => {
+          setType(type);
+        }}
+      >
+        {() => (
+          <Form className="flex flex-row gap-2 items-center text-sm border rounded-md border-gray-200 p-1">
+            <label>
+              <Field type="radio" name="type" value="DEBT" /> Debts
+            </label>
+            <label>
+              <Field type="radio" name="type" value="INCOME" /> Income
+            </label>
+            <button type="submit" className="btn">
+              Filter
+            </button>
+          </Form>
+        )}
+      </Formik>
+      <span className="text-sm italic text-gray-500 -my-2">Showing {type}</span>
       {!formMode && filteredBalances && filteredBalances.length > 0 && (
         <ul>
           {filteredBalances.map((b) => {
