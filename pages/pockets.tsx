@@ -64,7 +64,7 @@ const Pockets: NextPageWithLayout = () => {
 
   return (
     <>
-      <h2 className="text-2xl font-bold flex flex-row gap-1 items-center lg:w-10/12">
+      <h2 className="text-2xl font-bold flex flex-row gap-1 items-center lg:w-10/12 my-3 lg:my-5">
         <IoWallet className="text-gray-800" />
         <span className="text-transparent bg-clip-text bg-gradient-to-br from-gray-800 to-blue-500">
           Pockets

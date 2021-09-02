@@ -83,7 +83,7 @@ const Balances: NextPageWithLayout = () => {
 
   return (
     <div className="flex flex-col gap-5">
-      <h2 className="text-2xl font-bold flex flex-row gap-1 items-center">
+      <h2 className="text-2xl font-bold flex flex-row gap-1 items-center my-3 lg:my-5">
         <MdAccountBalance className="text-gray-800" />
         <span className="text-transparent bg-clip-text bg-gradient-to-br from-gray-800 to-blue-500">
           Balances
