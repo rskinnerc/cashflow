@@ -35,27 +35,26 @@ const BalanceGraph: FunctionComponent<BalanceGraphProps> = ({ balances }) => {
   }, [income, debts]);
 
   return (
-    <div className="w-full">
-      {percents.income > 0 ||
-        (percents.debts > 0 && (
-          <div className="flex flex-row">
-            <span
-              className="bg-green-500 h-2 p-0.5 rounded-l-md"
-              style={{ width: `${percents.income}%` }}
-            ></span>
-            <span
-              className="bg-pink-500 h-2 p-0.5 rounded-r-md"
-              style={{ width: `${percents.debts}%` }}
-            ></span>
-          </div>
-        ))}
+    <div className="w-full lg:w-1/2 self-center">
+      {(percents.income > 0 || percents.debts > 0) && (
+        <div className="flex flex-row">
+          <span
+            className="bg-green-500 h-2 p-0.5 rounded-l-md"
+            style={{ width: `${percents.income}%` }}
+          ></span>
+          <span
+            className="bg-pink-500 h-2 p-0.5 rounded-r-md"
+            style={{ width: `${percents.debts}%` }}
+          ></span>
+        </div>
+      )}
       <p className="flex flex-row items-center justify-between gap-8">
         <span className="text-green-500 text-xs font-semibold">INCOME:</span>{" "}
-        <span className="font-semibold">{income}</span>
+        <span className="font-semibold text-green-500">{income}</span>
       </p>
       <p className="flex flex-row items-center justify-between gap-8">
         <span className="text-pink-500 text-xs font-semibold">DEBTS</span>{" "}
-        <span className="font-semibold">{debts}</span>
+        <span className="font-semibold text-pink-500">{debts}</span>
       </p>
     </div>
   );
