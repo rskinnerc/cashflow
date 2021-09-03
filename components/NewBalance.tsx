@@ -4,6 +4,7 @@ import { Balance, balanceConverter } from "../models/Balance";
 import AuthContext from "../store/AuthContext";
 import FirebaseContext from "../store/FirebaseContext";
 import BalanceForm from "./BalanceForm";
+import { IoMdCloseCircleOutline } from "react-icons/io";
 
 export interface NewBalanceProps {
   closeForm: Function;
@@ -26,16 +27,14 @@ const NewBalance: FunctionComponent<NewBalanceProps> = ({ closeForm }) => {
   }
 
   return (
-    <div>
-      <h2>New Balance Component</h2>
-      <button
-        className="border-2 rounded-md border-red-600 p-1"
-        onClick={() => {
-          closeForm();
-        }}
-      >
-        Close Form
-      </button>
+    <div className="p-2 bg-white shadow-lg rounded-lg">
+      <h2 className="text-gray-800 font-bold my-3 flex flex-row justify-between items-center">
+        New Transaction{" "}
+        <IoMdCloseCircleOutline
+          className="text-red-700 text-xl cursor-pointer"
+          onClick={() => closeForm()}
+        />
+      </h2>
       <BalanceForm
         balance={balance}
         submitFn={(balance: Balance) => create(balance)}
