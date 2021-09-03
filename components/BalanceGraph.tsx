@@ -35,7 +35,7 @@ const BalanceGraph: FunctionComponent<BalanceGraphProps> = ({ balances }) => {
   }, [income, debts]);
 
   return (
-    <div className="w-full lg:w-1/2 self-center md:my-5">
+    <div className="w-full md:my-5">
       {(percents.income > 0 || percents.debts > 0) && (
         <div className="flex flex-row">
           <span

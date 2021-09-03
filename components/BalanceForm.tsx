@@ -48,7 +48,7 @@ const BalanceForm: FunctionComponent<BalanceFormProps> = ({
       })}
       onSubmit={(values) => submit(values)}
     >
-      <Form className="flex flex-col gap-2 items-start mb-7">
+      <Form className="flex flex-col gap-2 items-start">
         <label htmlFor="concept">Concept</label>
         <Field name="concept" type="text" />
         <div className="hint -mt-2">

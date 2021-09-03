@@ -82,120 +82,125 @@ const Balances: NextPageWithLayout = () => {
   }
 
   return (
-    <div className="flex flex-col gap-5">
+    <>
       <h2 className="text-2xl font-bold flex flex-row gap-1 items-center my-3 lg:my-5">
         <MdAccountBalance className="text-gray-800" />
         <span className="text-transparent bg-clip-text bg-gradient-to-br from-gray-800 to-blue-500">
           Balances
         </span>
       </h2>
-
-      <Formik
-        initialValues={{
-          start: format(filters.start, "yyyy-MM-dd"),
-          end: format(filters.end, "yyyy-MM-dd"),
-          currency: filters.currency,
-        }}
-        validationSchema={Yup.object({
-          start: Yup.string().required(),
-          end: Yup.date().required(),
-          currency: Yup.string().oneOf(["COP", "USD"]).required(),
-        })}
-        onSubmit={({ start, end, currency }) => {
-          setFilters(
-            formatFilters(
-              parse(start, "yyyy-MM-dd", new Date()),
-              parse(end, "yyyy-MM-dd", new Date()),
-              currency
-            )
-          );
-        }}
-      >
-        <Form className="text-sm border rounded-md border-gray-200 p-1">
-          <div className="flex flex-row justify-evenly">
-            <label>
-              <Field type="radio" name="currency" value="USD" /> USD
-            </label>
-            <label>
-              <Field type="radio" name="currency" value="COP" /> COP
-            </label>
-            <ErrorMessage name="currency" className="text-red-600" />
-          </div>
-          <div className="flex flex-col">
-            <label className="font-semibold" htmlFor="start">
-              Start Date
-            </label>
-            <Field name="start" type="date" />
-            <ErrorMessage name="start" className="text-red-600" />
-          </div>
-          <div className="flex flex-col">
-            <label className="font-semibold" htmlFor="end">
-              End Date
-            </label>
-            <Field name="end" type="date" />
-            <ErrorMessage name="end" className="text-red-600" />
-          </div>
-          <button type="submit" className="btn mt-2">
-            Load Transactions
+      <div className="flex flex-col md:flex-row md:justify-evenly gap-5 lg:w-11/12 lg:mx-auto">
+        <div className="w-full flex flex-col">
+          <Formik
+            initialValues={{
+              start: format(filters.start, "yyyy-MM-dd"),
+              end: format(filters.end, "yyyy-MM-dd"),
+              currency: filters.currency,
+            }}
+            validationSchema={Yup.object({
+              start: Yup.string().required(),
+              end: Yup.date().required(),
+              currency: Yup.string().oneOf(["COP", "USD"]).required(),
+            })}
+            onSubmit={({ start, end, currency }) => {
+              setFilters(
+                formatFilters(
+                  parse(start, "yyyy-MM-dd", new Date()),
+                  parse(end, "yyyy-MM-dd", new Date()),
+                  currency
+                )
+              );
+            }}
+          >
+            <Form className="text-sm border rounded-md border-gray-200 p-1">
+              <div className="flex flex-row justify-evenly">
+                <label>
+                  <Field type="radio" name="currency" value="USD" /> USD
+                </label>
+                <label>
+                  <Field type="radio" name="currency" value="COP" /> COP
+                </label>
+                <ErrorMessage name="currency" className="text-red-600" />
+              </div>
+              <div className="flex flex-col">
+                <label className="font-semibold" htmlFor="start">
+                  Start Date
+                </label>
+                <Field name="start" type="date" />
+                <ErrorMessage name="start" className="text-red-600" />
+              </div>
+              <div className="flex flex-col">
+                <label className="font-semibold" htmlFor="end">
+                  End Date
+                </label>
+                <Field name="end" type="date" />
+                <ErrorMessage name="end" className="text-red-600" />
+              </div>
+              <button type="submit" className="btn mt-2">
+                Load Transactions
+              </button>
+            </Form>
+          </Formik>
+          <BalanceGraph balances={transactions} />
+          <button
+            className="border-2 rounded-md border-green-600 p-1 self-center"
+            onClick={() => {
+              setFormMode("creating");
+            }}
+          >
+            New Balance
           </button>
-        </Form>
-      </Formik>
-      <BalanceGraph balances={transactions} />
+        </div>
 
-      <button
-        className="border-2 rounded-md border-green-600 p-1 self-center"
-        onClick={() => {
-          setFormMode("creating");
-        }}
-      >
-        New Balance
-      </button>
-      <Formik
-        initialValues={{
-          type,
-        }}
-        onSubmit={({ type }) => {
-          setType(type);
-        }}
-      >
-        {() => (
-          <Form className="flex flex-row gap-2 items-center text-sm border rounded-md border-gray-200 p-1">
-            <label>
-              <Field type="radio" name="type" value="DEBT" /> Debts
-            </label>
-            <label>
-              <Field type="radio" name="type" value="INCOME" /> Income
-            </label>
-            <button type="submit" className="btn">
-              Filter
-            </button>
-          </Form>
-        )}
-      </Formik>
-      <span className="text-sm italic text-gray-500 -my-2">Showing {type}</span>
-      {!formMode && filteredBalances && filteredBalances.length > 0 && (
-        <ul>
-          {filteredBalances.map((b) => {
-            return (
-              <li
-                key={b.id}
-                onClick={() => {
-                  setFormMode("updating");
-                  setEditing(b);
-                }}
-              >
-                <Balance balance={b} reload={loadTransactions} />
-              </li>
-            );
-          })}
-        </ul>
-      )}
-      {!formMode && filteredBalances?.length == 0 && <Empty />}
-      {formMode === "creating" && <NewBalance closeForm={closeForm} />}
-      {formMode === "updating" && (
-        <UpdateBalance closeForm={closeForm} balance={editing!} />
-      )}
-    </div>
+        <div className="w-full mb-7">
+          <Formik
+            initialValues={{
+              type,
+            }}
+            onSubmit={({ type }) => {
+              setType(type);
+            }}
+          >
+            {() => (
+              <Form className="flex flex-row gap-2 items-center text-sm border rounded-md border-gray-200 p-1">
+                <label>
+                  <Field type="radio" name="type" value="DEBT" /> Debts
+                </label>
+                <label>
+                  <Field type="radio" name="type" value="INCOME" /> Income
+                </label>
+                <button type="submit" className="btn">
+                  Filter
+                </button>
+              </Form>
+            )}
+          </Formik>
+          <p className="text-sm italic text-gray-500 my-5">Showing {type}</p>
+          {!formMode && filteredBalances && filteredBalances.length > 0 && (
+            <ul>
+              {filteredBalances.map((b) => {
+                return (
+                  <li
+                    key={b.id}
+                    onClick={() => {
+                      setFormMode("updating");
+                      setEditing(b);
+                    }}
+                  >
+                    <Balance balance={b} reload={loadTransactions} />
+                  </li>
+                );
+              })}
+            </ul>
+          )}
+          {!formMode && filteredBalances?.length == 0 && <Empty />}
+          {formMode === "creating" && <NewBalance closeForm={closeForm} />}
+          {formMode === "updating" && (
+            <UpdateBalance closeForm={closeForm} balance={editing!} />
+          )}
+        </div>
+      </div>
+    </>
   );
 };
 
