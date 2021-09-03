@@ -3,6 +3,7 @@ import type { AppProps } from "next/app";
 import FirebaseContext from "../store/FirebaseContext";
 import firebaseInit from "../firebase";
 import { ReactElement } from "react";
+import Head from "next/head";
 
 const firebase = firebaseInit();
 
@@ -13,9 +14,15 @@ type AppPropsWithLayout = AppProps & {
 function MyApp({ Component, pageProps }: AppPropsWithLayout) {
   const getLayout = Component.getLayout || ((page: ReactElement) => page);
   return (
-    <FirebaseContext.Provider value={firebase}>
-      {getLayout(<Component {...pageProps} />)}
-    </FirebaseContext.Provider>
+    <>
+      <Head>
+        <title>Cashflow App</title>
+        <meta property="og:title" content="Cashflow App" key="title" />
+      </Head>
+      <FirebaseContext.Provider value={firebase}>
+        {getLayout(<Component {...pageProps} />)}
+      </FirebaseContext.Provider>
+    </>
   );
 }
 export default MyApp;

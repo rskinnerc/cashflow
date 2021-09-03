@@ -17,10 +17,8 @@ function firebaseInit() {
 
   try {
     firebase = getApp();
-    console.log("FirebaseApp Already initialized:", firebase);
   } catch (error) {
     firebase = initializeApp(firebaseConfig);
-    console.log("FirebaseApp Initialized:", firebase);
   }
   const db = getFirestore();
   const auth = getAuth();
