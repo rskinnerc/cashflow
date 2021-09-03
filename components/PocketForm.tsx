@@ -22,44 +22,55 @@ const PocketForm: FunctionComponent<PocketFormProps> = ({
   }
 
   return (
-    <div>
-      <h2>Pocket Form</h2>
-      <Formik
-        initialValues={{
-          balance: pocket.balance,
-          currency: pocket.currency,
-          status: pocket.status,
-          name: pocket.name,
-        }}
-        validationSchema={Yup.object({
-          balance: Yup.number().moreThan(0).required(),
-          currency: Yup.string().oneOf(["COP", "USD"]).required(),
-          status: Yup.bool().required(),
-          name: Yup.string().max(32).required(),
-        })}
-        onSubmit={(values) => submit(values)}
-      >
-        <Form>
-          <label htmlFor="balance">Balance</label>
-          <Field name="balance" type="number" />
-          <ErrorMessage name="balance" className="text-red-600" />
+    <Formik
+      initialValues={{
+        balance: pocket.balance,
+        currency: pocket.currency,
+        status: pocket.status,
+        name: pocket.name,
+      }}
+      validationSchema={Yup.object({
+        balance: Yup.number().moreThan(0).required(),
+        currency: Yup.string().oneOf(["COP", "USD"]).required(),
+        status: Yup.bool().required(),
+        name: Yup.string().max(32).required(),
+      })}
+      onSubmit={(values) => submit(values)}
+    >
+      <Form className="flex flex-col gap-2 items-start mb-7">
+        <label htmlFor="balance">Balance</label>
+        <Field name="balance" type="number" />
+        <div className="hint -mt-2">
+          <ErrorMessage name="balance" />
+        </div>
 
-          <label htmlFor="currency">Currency</label>
-          <Field name="currency" type="text" />
-          <ErrorMessage name="currency" className="text-red-600" />
+        <label htmlFor="currency">Currency</label>
+        <Field as="select" name="currency" type="text">
+          <option value="COP">COP</option>
+          <option value="USD">USD</option>
+        </Field>
+        <div className="hint -mt-2">
+          <ErrorMessage name="currency" />
+        </div>
 
-          <label htmlFor="name">Name</label>
-          <Field name="name" type="text" />
-          <ErrorMessage name="name" component="span" className="text-red-600" />
+        <label htmlFor="name">Name</label>
+        <Field name="name" type="text" />
+        <div className="hint -mt-2">
+          <ErrorMessage name="name" component="span" />
+        </div>
 
-          <label htmlFor="status">Status</label>
-          <Field name="status" type="checkbox" />
+        <label htmlFor="status" className="flex flex-row gap-5">
+          Status <Field name="status" type="checkbox" />
+        </label>
+        <div className="hint -mt-2">
           <ErrorMessage name="status" />
+        </div>
 
-          <button type="submit">Submit</button>
-        </Form>
-      </Formik>
-    </div>
+        <button type="submit" className="btn-success">
+          Submit
+        </button>
+      </Form>
+    </Formik>
   );
 };
 

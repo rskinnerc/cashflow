@@ -4,6 +4,7 @@ import { Pocket, pocketConverter } from "../models/Pocket";
 import AuthContext from "../store/AuthContext";
 import FirebaseContext from "../store/FirebaseContext";
 import PocketForm from "./PocketForm";
+import { IoMdCloseCircleOutline } from "react-icons/io";
 
 export interface NewPocketProps {
   closeForm: Function;
@@ -26,14 +27,15 @@ const NewPocket: FunctionComponent<NewPocketProps> = ({ closeForm }) => {
   }
 
   return (
-    <div>
-      <h2>New Pocket</h2>
-      <button
-        className="border rounded-md p-1 border-red-500"
-        onClick={() => closeForm()}
-      >
-        Close Form
-      </button>
+    <div className="p-2 bg-white shadow-lg rounded-lg">
+      <h2 className="text-gray-800 font-bold my-3 flex flex-row justify-between items-center">
+        New Pocket{" "}
+        <IoMdCloseCircleOutline
+          className="text-red-700 text-xl cursor-pointer"
+          onClick={() => closeForm()}
+        />
+      </h2>
+
       <PocketForm
         pocket={pocket}
         submitFn={(pocket: Pocket) => create(pocket)}
