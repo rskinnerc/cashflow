@@ -57,6 +57,7 @@ const Balances: NextPageWithLayout = () => {
   }
 
   useEffect(() => {
+    // TODO: Load even its marked as new, because when they close the form no data will be displayed
     router.query.new ? setFormMode("creating") : loadTransactions();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filters]);

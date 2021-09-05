@@ -1,6 +1,7 @@
 import { onAuthStateChanged, User } from "firebase/auth";
 import { useRouter } from "next/router";
 import { FunctionComponent, useContext, useEffect, useState } from "react";
+import Loading from "../components/Loading";
 import AuthContext from "./AuthContext";
 import FirebaseContext from "./FirebaseContext";
 
@@ -48,8 +49,8 @@ const AuthContextProvider: FunctionComponent<AuthContextProviderProps> = (
 
   if (!isLoggedIn && !props.guest) {
     return (
-      <div>
-        <h2>Loading Authentication</h2>
+      <div className="h-screen w-full z-50 flex flex-col items-center justify-center bg-gray-200">
+        <Loading />
       </div>
     );
   }
