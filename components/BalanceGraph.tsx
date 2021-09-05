@@ -1,10 +1,15 @@
 import { FunctionComponent, useEffect, useState } from "react";
+import useCurrencyFormat from "../lib/useCurrencyFormat";
 import { Balance } from "../models/Balance";
 export interface BalanceGraphProps {
   balances: Balance[];
+  currency: string;
 }
 
-const BalanceGraph: FunctionComponent<BalanceGraphProps> = ({ balances }) => {
+const BalanceGraph: FunctionComponent<BalanceGraphProps> = ({
+  balances,
+  currency,
+}) => {
   const [income, setIncome] = useState(0);
   const [debts, setDebts] = useState(0);
   const [percents, setPercents] = useState({ income: 0, debts: 0 });
@@ -50,11 +55,15 @@ const BalanceGraph: FunctionComponent<BalanceGraphProps> = ({ balances }) => {
       )}
       <p className="flex flex-row items-center justify-between gap-8">
         <span className="text-blue-500 text-xs font-semibold">INCOME:</span>{" "}
-        <span className="font-semibold text-blue-500">{income}</span>
+        <span className="font-semibold text-blue-500">
+          {useCurrencyFormat(currency, income)}
+        </span>
       </p>
       <p className="flex flex-row items-center justify-between gap-8">
         <span className="text-red-500 text-xs font-semibold">DEBTS</span>{" "}
-        <span className="font-semibold text-red-500">{debts}</span>
+        <span className="font-semibold text-red-500">
+          {useCurrencyFormat(currency, debts)}
+        </span>
       </p>
     </div>
   );

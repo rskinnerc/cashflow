@@ -3,6 +3,7 @@ import FirebaseContext from "../store/FirebaseContext";
 import { FunctionComponent, SyntheticEvent, useContext } from "react";
 import { deleteDoc, doc } from "firebase/firestore";
 import Status from "./Status";
+import useCurrencyFormat from "../lib/useCurrencyFormat";
 export interface BalanceProps {
   balance: BalanceModel;
   reload: Function;
@@ -32,7 +33,9 @@ const Balance: FunctionComponent<BalanceProps> = ({ balance, reload }) => {
           </span>
           {balance.concept}
         </span>
-        <span className="font-bold">{balance.value}</span>
+        <span className="font-bold">
+          {useCurrencyFormat(balance.currency, balance.value)}
+        </span>
         <span>Date: {balance.fDate}</span>
       </div>
       <span className="w-2/12 self-start mt-1 mr-1">

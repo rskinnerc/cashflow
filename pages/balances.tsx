@@ -141,7 +141,7 @@ const Balances: NextPageWithLayout = () => {
               </button>
             </Form>
           </Formik>
-          <BalanceGraph balances={transactions} />
+          <BalanceGraph balances={transactions} currency={filters.currency} />
           <button
             className="border-2 rounded-md border-green-600 p-1 self-center"
             onClick={() => {

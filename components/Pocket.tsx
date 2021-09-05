@@ -1,5 +1,6 @@
 import { deleteDoc, doc } from "firebase/firestore";
 import { FunctionComponent, SyntheticEvent, useContext } from "react";
+import useCurrencyFormat from "../lib/useCurrencyFormat";
 import { Pocket as PocketModel } from "../models/Pocket";
 import FirebaseContext from "../store/FirebaseContext";
 import Status from "./Status";
@@ -30,7 +31,7 @@ const Pocket: FunctionComponent<PocketProps> = ({ pocket, reload }) => {
         {pocket.name}
         <br />
         <span className="text-yellow-200 font-semibold text-base">
-          {pocket.balance} {pocket.currency}
+          {useCurrencyFormat(pocket.currency, pocket.balance)}
         </span>
       </span>
       <span className="w-3/12">
