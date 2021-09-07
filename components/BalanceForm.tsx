@@ -86,7 +86,7 @@ const BalanceForm: FunctionComponent<BalanceFormProps> = ({
         </div>
         <br />
 
-        <label htmlFor="status" className="flex flex-row gap-5">
+        <label htmlFor="status" className="flex flex-row items-center gap-5">
           Status <Field name="status" type="checkbox" />
         </label>
         <div className="hint -mt-2">
